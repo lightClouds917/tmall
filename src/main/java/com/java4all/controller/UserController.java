@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * Author: momo
  * Date: 2018/3/26
@@ -24,9 +22,11 @@ public class UserController {
     private UserRepository userRepository;
 
     @RequestMapping(value = "getListByProvince",method = RequestMethod.GET)
-    public List<User> getListByProvince(String province){
-        List<User> list = userRepository.findByProvince(province);
-        return list;
+    public User getListByProvince(){
+        User user = userRepository.findById(599986);
+        userRepository.deleteById(599988);
+        userRepository.deleteById(599989);
+        return user;
     }
 
 }

@@ -2,17 +2,18 @@ package com.java4all.dao;
 
 import com.java4all.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Author: momo
  * Date: 2018/3/27
  * Description:
  */
+@Transactional
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    List<User> findByProvince(String province);
+
+    User findById(Integer id);
 
     void deleteById(Integer id);
 
