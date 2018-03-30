@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java4all.dao.UserDao">
+    <resultMap id="resMap" type="com.java4all.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="real_name" property="realName" />
+        <result column="password" property="password"/>
+        <result column="country" property="country"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="phone" property="phone"/>
+        <result column="create_time" property="createTime"/>
+        <result column="dev_language" property="devLanguage"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="school_major" property="schoolMajor"/>
+    </resultMap>
+
+    <select id="getById" resultMap="resMap">
+        SELECT * FROM user where id = #{id}
+    </select>
+</mapper>

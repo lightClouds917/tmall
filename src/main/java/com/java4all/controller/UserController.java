@@ -2,6 +2,7 @@ package com.java4all.controller;
 
 import com.java4all.dao.UserRepository;
 import com.java4all.entity.User;
+import com.java4all.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,21 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "getById",method = RequestMethod.GET)
+    public User getList(Integer id){
+        User user = userService.getById(id);
+        return user;
+    }
+
+    //-------------jpa----------------------
 
     /**
      * 查询操作
@@ -115,4 +131,7 @@ public class UserController {
 
         return map;
     }
+
+    //-------------jpa----------------------
+
 }
