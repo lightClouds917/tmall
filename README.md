@@ -6,7 +6,7 @@ This is a scaffold project for SpringBoot,if you are a Java programmer,You can l
 
 - Wechat:java4all
 
-- CSDN:https://blog.csdn.net/weixin_39800144/article/details/79176439)
+- CSDN:https://blog.csdn.net/weixin_39800144/article/details/79176439
 
 This project includs but is not limited to the following points:
 
