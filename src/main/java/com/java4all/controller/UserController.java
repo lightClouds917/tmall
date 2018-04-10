@@ -51,29 +51,52 @@ public class UserController {
      * 查询操作
      * @return
      */
-    @RequestMapping(value = "getList",method = RequestMethod.GET)
-    public User getList(){
-        User user = userRepository.findById(599986);
-        userRepository.deleteById(599988);
-
+    @RequestMapping(value = "findById",method = RequestMethod.GET)
+    public User findById(Integer id){
+        User user = userRepository.findById(id);
         return user;
     }
 
     /**
-     * 增删改等操作
+     * 删除操作
+     * @param id
+     */
+    @RequestMapping(value = "deleteById",method = RequestMethod.GET)
+    public void deleteById(Integer id){
+        userRepository.deleteById(id);
+    }
+
+    /**
+     * 添加User
      * @return
      */
     @RequestMapping(value = "addUser",method = RequestMethod.GET)
     public String addUser(){
 
         User user = new User();
-        user.setUserName("momo");
+        user.setUserName("momo456");
         user.setCountry("中国啊");
         userRepository.saveAndFlush(user);
-
         return "操作成功";
     }
 
+    /**
+     * 根据userName查询user
+     * @param userName
+     * @return
+     */
+    @RequestMapping(value = "findByUserName",method = RequestMethod.GET)
+    public User findByUserName(String userName){
+        User user = userRepository.findUserByUserName(userName);
+        return user;
+    }
+
+    /**
+     * 分页查询
+     * @param pageSize 每页个数
+     * @param pageNum 页码
+     * @return
+     */
     @RequestMapping(value = "findByPage",method = RequestMethod.GET)
     public Map<String,Object> findByPage(Integer pageSize,Integer pageNum){
         Map<String,Object> map = new HashMap();
@@ -91,7 +114,7 @@ public class UserController {
 
             @Override
             public long getOffset() {
-                logger.info("=======>：" + (pageNum - 1) * pageSize);
+                //logger.info("=======>：" + (pageNum - 1) * pageSize);
                 return (pageNum - 1) * pageSize;
             }
 

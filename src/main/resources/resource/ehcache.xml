@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <cache name="user"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           diskPersistent="false"
+           diskSpoolBufferSizeMB="30"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU"
+           clearOnFlush="false"
+    />
+</ehcache>
