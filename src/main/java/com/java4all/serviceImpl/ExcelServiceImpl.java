@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,22 +35,32 @@ public class ExcelServiceImpl implements ExcelService{
      * @param list
      * @return
      */
+    @Async
     public List getUserByProvince(List<User> list) {
         List<User> list1 = new ArrayList();
-            for (int i = 0,length = list.size();i < length;i++){
-                User user = list.get(i);
-                if("陕西省".equals(user.getProvince())){
-                    list1.add(user);
-                    logger.info("==========>符合条件："+user.getRealName());
+        try {
+            synchronized (list1){
+                logger.info("=======>处理数据线程名称："+Thread.currentThread().getName());
+                for (int i = 0,length = list.size();i < length;i++){
+                    User user = list.get(i);
+                    if("陕西省".equals(user.getProvince())){
+                        list1.add(user);
+                        list1.wait(60);
+                        //logger.info("==========>符合条件："+user.getRealName());
+                    }
                 }
             }
+        }catch (Exception ex){
+            logger.info("=========>数据分析出错");
+        }
         return list1;
     }
 
+    @Async
     @Override
     public String parseExcel(MultipartFile file) throws Exception{
         String fileName = file.getOriginalFilename();
-        logger.info("====>文件名："+fileName);
+        logger.info("=======>文件名："+fileName);
 
         //判断是否为null
         if(null == file){
@@ -73,7 +84,6 @@ public class ExcelServiceImpl implements ExcelService{
         if(!fileDir.exists()){
             fileDir.mkdirs();
         }
-        //String filePath = fileDir+"\\";
         File fileNew = new File(fileDir,System.currentTimeMillis()+ "-"+ fileName);
         file.transferTo(fileNew);
 
@@ -89,8 +99,11 @@ public class ExcelServiceImpl implements ExcelService{
         }
 
         List<User> users = readExcel(wb);
+
+        //处理数据
         List listPS = this.getUserByProvince(users);
-        logger.info("=======>处理完毕，符合条件数据有："+listPS.size()+"条");
+
+        logger.info("=======>处理完毕，共解析出:"+users.size()+"条数据，符合条件数据有："+listPS.size()+"条");
 
         return "处理完毕";
     }
